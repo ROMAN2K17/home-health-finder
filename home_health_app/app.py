@@ -27,18 +27,17 @@ st.write("Companies loaded:", len(companies))
 
 # -----------------------------
 # Helper function
-import os
-import csv
 import streamlit as st
+import csv
+import os
 
-def load_companies(csv_file="home_healths.csv"):
-    # Get the folder where this script lives
-    base_dir = os.path.dirname(__file__)
-    # Full path to the CSV
-    csv_path = os.path.join(base_dir, csv_file)
+# Get the folder where this script is located
+BASE_DIR = os.path.dirname(__file__)
+CSV_PATH = os.path.join(BASE_DIR, "home_healths.csv")
 
+def load_companies(csv_file=CSV_PATH):
     companies = []
-    with open(csv_path, newline="", encoding="utf-8") as file:
+    with open(csv_file, newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         for row in reader:
             insurances = [i.strip() for i in row["insurance"].split("|")] if row["insurance"].strip().lower() != "unknown" else []
@@ -51,6 +50,7 @@ def load_companies(csv_file="home_healths.csv"):
                 "service_area": service_areas
             })
     return companies
+
 companies = load_companies()
 st.write("Companies loaded:", len(companies))
 
